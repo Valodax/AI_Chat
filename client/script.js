@@ -69,7 +69,7 @@ async function handleSubmit(e) {
     loader(messageDiv);
 
     // fetch data from server -> bot's respose
-    const response = await fetch("http://localhost:5000", {
+    const response = await fetch("https://ai-chat-aqo9.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: data.get("prompt") }),
