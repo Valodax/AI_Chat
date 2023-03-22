@@ -11,7 +11,7 @@ function loader(element) {
     loadInterval = setInterval(() => {
         element.textContent += ".";
 
-        if (element.textContent.length === 3) {
+        if (element.textContent.length === 4) {
             element.textContent = "";
         }
     }, 300);
@@ -26,7 +26,7 @@ function typeText(element, text) {
         } else {
             clearInterval(interval);
         }
-    }, 20);
+    }, 5);
 }
 
 function generateUniqueId() {
@@ -67,12 +67,36 @@ async function handleSubmit(e) {
 
     const messageDiv = document.getElementById(uniqueId);
     loader(messageDiv);
+
+    // fetch data from server -> bot's respose
+    const response = await fetch("http://localhost:5000", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: data.get("prompt") }),
+    });
+
+    clearInterval(loadInterval);
+    messageDiv.innerHTML = "";
+
+    if (response.ok) {
+        const data = await response.json();
+        const parsedData = data.bot.trim();
+
+        console.log({ parsedData });
+        typeText(messageDiv, parsedData);
+    } else {
+        const err = await response.text();
+
+        messageDiv.innerHTML = "Something went wrong!";
+        alert(err);
+    }
+
     return false;
 }
 
 form.addEventListener("submit", handleSubmit);
 form.addEventListener("keyup", (e) => {
-    if (e.keyCode === 13) {
+    if (e.keyCode === 13 && !e.shiftKey) {
         handleSubmit(e);
     }
 });
