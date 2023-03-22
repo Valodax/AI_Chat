@@ -1,6 +1,6 @@
 # AI_Chat
 
-I was annoyed at the speed and the waiting times of OpenAI's ChatGPT, so I connected via their API and made a clone:
+The following project is a much faster and direct version of OpenAI's ChatGPT. It uses their API and their Davinci3 model:
 
 You can view the project here:
 [https://ai-chat-weld.vercel.app/](https://ai-chat-weld.vercel.app/)
